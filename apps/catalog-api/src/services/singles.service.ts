@@ -1,22 +1,12 @@
-export interface Single {
-  id: number;
-  title: string;
-  year: number;
-}
+import type { Single } from "../models/single.js";
+import { SinglesRepository } from "../repositories/singles.repository.js";
 
 export class SinglesService {
+  constructor(
+    private readonly repository = new SinglesRepository()
+  ) {}
+
   public getAll(): Single[] {
-    return [
-      {
-        id: 1,
-        title: "Norma Jean",
-        year: 2026
-      },
-      {
-        id: 2,
-        title: "Gavetta",
-        year: 2025
-      }
-    ];
+    return this.repository.findAll();
   }
 }
