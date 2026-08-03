@@ -9,4 +9,9 @@ export class SinglesService {
   public getAll(): Single[] {
     return this.repository.findAll();
   }
+
+  public getById(id: string): Single | undefined {
+    return this.repository.findById(id);
+  }
+
 }

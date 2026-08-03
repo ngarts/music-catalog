@@ -7,4 +7,10 @@ export const singlesRoutes: FastifyPluginAsync = async (app) => {
   app.get("/api/singles", async () => {
     return controller.getSingles();
   });
+  app.get<{ Params: { id: string } }>(
+    "/api/singles/:id",
+    async (request, reply) => {
+      return controller.getSingleById(request, reply);
+    }
+  );
 };

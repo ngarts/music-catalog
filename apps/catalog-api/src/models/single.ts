@@ -1,5 +1,5 @@
 export interface Single {
-  id: number;
+  id: string;
   title: string;
   year: number;
 }
