@@ -1,16 +1,12 @@
 import Fastify, { type FastifyInstance } from "fastify";
+import { routes } from "./routes/index.js";
 
 export function buildApp(): FastifyInstance {
   const app = Fastify({
     logger: true
   });
 
-  app.get("/health", async () => {
-    return {
-      status: "ok",
-      service: "catalog-api"
-    };
-  });
+  void app.register(routes);
 
   return app;
 }
