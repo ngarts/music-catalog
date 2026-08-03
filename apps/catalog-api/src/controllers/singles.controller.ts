@@ -24,12 +24,6 @@ export class SinglesController {
   ) {
     const { id } = request.params;
 
-    if (!id.trim()) {
-      return reply.status(400).send({
-        error: "Invalid single id"
-      });
-    }
-
     const single = this.service.getById(id);
 
     if (!single) {
