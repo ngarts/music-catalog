@@ -11,7 +11,7 @@ interface GetSingleParams {
 
 export class SinglesController {
   constructor(
-    private readonly service = new SinglesService()
+    private readonly service: SinglesService
   ) {}
 
   public async getSingles() {
