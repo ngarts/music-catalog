@@ -1,2 +1,21 @@
-# music-catalog
-A cloud-native music catalog built with TypeScript, Node.js, React, MongoDB, Docker and Kubernetes.
+# Music Catalog
+
+A cloud-native full-stack application for managing and showcasing a music catalog.
+
+## Tech Stack
+
+- TypeScript
+- Node.js
+- Fastify
+- React
+- MongoDB
+- Docker
+- Kubernetes
+
+## Goals
+
+- Build a RESTful API
+- Develop a modern React frontend
+- Containerize the application with Docker
+- Deploy and orchestrate services with Kubernetes
+- Apply software engineering best practices
