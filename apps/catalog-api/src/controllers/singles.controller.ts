@@ -4,6 +4,7 @@ import type {
 } from "fastify";
 
 import { SinglesService } from "../services/singles.service.js";
+import { toSingleResponse, toSinglesResponse } from "../mappers/single.mapper.js";
 
 interface GetSingleParams {
   id: string;
@@ -15,7 +16,8 @@ export class SinglesController {
   ) {}
 
   public async getSingles() {
-    return this.service.getAll();
+    const singles = await this.service.getAll();
+    return toSinglesResponse(singles);
   }
 
   public async getSingleById(
@@ -32,6 +34,6 @@ export class SinglesController {
       });
     }
 
-    return reply.send(single);
+    return reply.send(toSingleResponse(single));
   }
 }
