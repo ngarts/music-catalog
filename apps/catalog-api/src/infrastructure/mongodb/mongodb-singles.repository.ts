@@ -1,6 +1,6 @@
 import type { Collection, Db } from "mongodb";
 
-import type { Single } from "../../domain/models/single.js";
+import type { Single } from "../../domain/entities/single.js";
 import type { SinglesRepository } from "../../domain/repositories/singles.repository.js";
 
 export class MongoSinglesRepository implements SinglesRepository {

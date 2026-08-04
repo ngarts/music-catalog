@@ -1,4 +1,4 @@
-import type { Single } from "../models/single.js";
+import type { Single } from "../entities/single.js";
 
 export interface SinglesRepository {
 

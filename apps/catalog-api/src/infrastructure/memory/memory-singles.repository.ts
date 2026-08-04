@@ -1,5 +1,5 @@
 import { initialSingles } from "../../domain/data/initial-singles.js";
-import type { Single } from "../../domain/models/single.js";
+import type { Single } from "../../domain/entities/single.js";
 import type { SinglesRepository } from "../../domain/repositories/singles.repository.js";
 
 export class MemorySinglesRepository implements SinglesRepository {

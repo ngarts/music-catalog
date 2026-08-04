@@ -1,6 +1,6 @@
 import { loadEnvironment } from "../config/environment.js";
 import { initialSingles } from "../domain/data/initial-singles.js";
-import type { Single } from "../domain/models/single.js";
+import type { Single } from "../domain/entities/single.js";
 import { connectToMongoDB } from "../infrastructure/mongodb/connection.js";
 
 async function seed(): Promise<void> {
