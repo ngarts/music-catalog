@@ -12,7 +12,7 @@ async function start(): Promise<void> {
   );
 
   const container = buildContainer(mongoConnection.database);
-  const app = buildApp(container);
+  const app = buildApp(container, environment);
 
   app.addHook("onClose", async () => {
     await mongoConnection.client.close();

@@ -2,7 +2,7 @@ import type { SingleResponseDto } from "@music-catalog/shared";
 
 import { getSingles } from "../api/catalog-api";
 
-export class CatalogService {
+export class SinglesService {
 
   public async getSingles(): Promise<SingleResponseDto[]> {
     return getSingles();
@@ -10,4 +10,4 @@ export class CatalogService {
 
 }
 
-export const catalogService = new CatalogService();
+export const singlesService = new SinglesService();

@@ -5,6 +5,7 @@ export interface Environment {
   host: string;
   mongodbUri: string;
   mongodbDatabase: string;
+  corsOrigin: string;
 }
 
 function requireEnvironmentVariable(name: string): string {
@@ -32,6 +33,7 @@ export function loadEnvironment(): Environment {
     host: process.env.HOST ?? "0.0.0.0",
     port: parsePort(process.env.PORT),
     mongodbUri: requireEnvironmentVariable("MONGODB_URI"),
-    mongodbDatabase: requireEnvironmentVariable("MONGODB_DATABASE")
+    mongodbDatabase: requireEnvironmentVariable("MONGODB_DATABASE"),
+    corsOrigin: requireEnvironmentVariable("CORS_ORIGIN")
   };
 }

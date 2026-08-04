@@ -2,7 +2,7 @@ import { Alert, CircularProgress, Container, List, ListItem, ListItemText, Stack
 import { useEffect, useState } from "react";
 
 import type { SingleResponseDto } from "@music-catalog/shared";
-import { catalogService } from "../services/catalog.service";
+import { singlesService } from "../services/singles.service";
 
 export function CatalogPage() {
     const [singles, setSingles] = useState<SingleResponseDto[]>([]);
@@ -12,7 +12,7 @@ export function CatalogPage() {
     useEffect(() => {
         async function loadSingles(): Promise<void> {
             try {
-                const loadSingles = await catalogService.getSingles();
+                const loadSingles = await singlesService.getSingles();
                 setSingles(loadSingles);
             } catch (error: unknown) {
                 setError(
