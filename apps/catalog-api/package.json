@@ -20,6 +20,8 @@
   "author": "Nicola Gullo",
   "license": "MIT",
   "dependencies": {
+    "@fastify/cors": "^11.3.0",
+    "@music-catalog/shared": "^1.0.0",
     "dotenv": "^17.4.2",
     "fastify": "^5.11.2",
     "mongodb": "^7.5.0"

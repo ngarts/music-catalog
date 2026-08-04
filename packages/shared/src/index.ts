@@ -1,0 +1,1 @@
+export type { SingleResponseDto } from "./dtos/single-response.dto.js";
