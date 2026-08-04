@@ -1,10 +1,12 @@
 import type { FastifyPluginAsync } from "fastify";
 
-import { singlesController } from "../container/index.js";
+import type { ApplicationContainer } from "../container/index.js";
 import { healthRoutes } from "./health.routes.js";
 import { buildSinglesRoutes } from "./singles.routes.js";
 
-export const routes: FastifyPluginAsync = async (app) => {
-  await app.register(healthRoutes);
-  await app.register(buildSinglesRoutes(singlesController));
-};
+export function buildRoutes(container: ApplicationContainer): FastifyPluginAsync {
+  return async (app) => {
+    await app.register(healthRoutes);
+    await app.register(buildSinglesRoutes(container.singlesController));
+  }
+}

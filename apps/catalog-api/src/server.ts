@@ -1,5 +1,6 @@
 import { buildApp } from "./app.js";
 import { loadEnvironment } from "./config/environment.js";
+import { buildContainer } from "./container/index.js";
 import { connectToMongoDB } from "./infrastructure/mongodb/connection.js";
 
 async function start(): Promise<void> {
@@ -10,7 +11,8 @@ async function start(): Promise<void> {
     environment.mongodbDatabase
   );
 
-  const app = buildApp();
+  const container = buildContainer(mongoConnection.database);
+  const app = buildApp(container);
 
   app.addHook("onClose", async () => {
     await mongoConnection.client.close();

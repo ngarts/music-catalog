@@ -1,8 +1,19 @@
+import type { Db } from "mongodb";
+
 import { SinglesController } from "../controllers/singles.controller.js";
-import { MemorySinglesRepository } from "../infrastructure/memory/memory-singles.repository.js";
+import { MongoSinglesRepository } from "../infrastructure/mongodb/mongodb-singles.repository.js";
 import { SinglesService } from "../services/singles.service.js";
 
-const singlesRepository = new MemorySinglesRepository();
-const singlesService = new SinglesService(singlesRepository);
+export interface ApplicationContainer {
+    singlesController: SinglesController;
+}
 
-export const singlesController = new SinglesController(singlesService);
+export function buildContainer(database: Db): ApplicationContainer {
+    const singlesRepository = new MongoSinglesRepository(database);
+    const singlesService = new SinglesService(singlesRepository);
+    const singlesController = new SinglesController(singlesService);
+
+    return {
+        singlesController
+    };
+}
