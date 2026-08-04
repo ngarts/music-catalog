@@ -1,16 +1,16 @@
-import type { Single } from "../models/single.js";
-import { SinglesRepository } from "../repositories/singles.repository.js";
+import type { Single } from "../domain/models/single.js";
+import type { SinglesRepository } from "../domain/repositories/singles.repository.js";
 
 export class SinglesService {
   constructor(
     private readonly repository: SinglesRepository
   ) {}
 
-  public getAll(): Single[] {
+  public async getAll(): Promise<Single[]> {
     return this.repository.findAll();
   }
 
-  public getById(id: string): Single | undefined {
+  public async getById(id: string): Promise<Single | null> {
     return this.repository.findById(id);
   }
 }

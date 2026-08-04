@@ -24,7 +24,7 @@ export class SinglesController {
   ) {
     const { id } = request.params;
 
-    const single = this.service.getById(id);
+    const single = await this.service.getById(id);
 
     if (!single) {
       return reply.status(404).send({
