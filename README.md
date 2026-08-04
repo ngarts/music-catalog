@@ -1,10 +1,8 @@
 # Music Catalog
 
-Music Catalog is a learning project designed to build a production-style full-stack application using modern TypeScript technologies and enterprise architectural patterns.
+Music Catalog is a production-style full-stack application built as a learning project to explore modern TypeScript technologies, enterprise architectural patterns, and cloud-native development.
 
-The project is intentionally developed step by step following enterprise software engineering practices.
-
-
+The application showcases a music catalog through a React frontend and a Fastify REST API, sharing contracts through a dedicated workspace package.
 
 ---
 
@@ -30,76 +28,90 @@ The project is intentionally developed step by step following enterprise softwar
 ### DevOps
 
 - Docker
-- Kubernetes (planned)
+- Kubernetes (coming next)
 
 ---
 
 ## Goals
 
-- Build a RESTful API
+- Build a production-style REST API
 - Develop a modern React frontend
 - Share contracts between backend and frontend
+- Apply Domain-Driven Design principles
 - Containerize the application with Docker
-- Deploy and orchestrate services with Kubernetes
-- Apply software engineering best practices
+- Deploy the application with Kubernetes
+- Follow enterprise software engineering practices
 
 ---
 
 ## Current Features
 
+### Backend
+
 - REST API with Fastify
-- React frontend
-- Material UI
-- Repository Pattern
 - Dependency Injection
+- Repository Pattern
 - MongoDB persistence
-- Shared DTO workspace
 - Database seed
-- Docker development environment
+- Environment-based configuration
+
+### Frontend
+
+- Responsive React application
+- Material UI components
+- Interactive flip cards
+- Streaming service shortcuts
+
+### Shared
+
+- Shared DTO workspace
+- Type-safe contracts between frontend and backend
 
 ---
 
 ## Architecture
 
 ```text
-Browser
- │
- ▼
-React
- │
- ▼
-Services
- │
- ▼
-API Client
- │
-HTTP
- ▼
-Fastify
- │
- ▼
-Controllers
- │
- ▼
-Services
- │
- ▼
-Repository Interface
- │
- ▼
-MongoDB Repository
- │
- ▼
-MongoDB
+                Browser
+                   │
+                   ▼
+               React UI
+                   │
+                   ▼
+              Application
+                Services
+                   │
+                   ▼
+               API Client
+                   │
+              HTTP / JSON
+                   │
+                   ▼
+                Fastify API
+                   │
+                   ▼
+              Controllers
+                   │
+                   ▼
+               Services
+                   │
+                   ▼
+          Repository Interface
+                   │
+                   ▼
+          MongoDB Repository
+                   │
+                   ▼
+                MongoDB
 ```
 
-Shared contracts
+### Shared Contracts
 
 ```text
 packages/shared
         ▲
         │
-Backend ───── Frontend
+Backend ─────────── Frontend
 ```
 
 ---
@@ -124,7 +136,7 @@ kubernetes/
 
 ---
 
-## Running the project
+## Running the Project
 
 ### Start MongoDB
 
@@ -152,19 +164,48 @@ npm run dev --workspace=@music-catalog/frontend
 
 ---
 
+## Project Highlights
+
+- Monorepo architecture
+- Shared TypeScript workspace
+- Clean separation between frontend and backend
+- Repository Pattern
+- Dependency Injection
+- MongoDB persistence
+- Interactive music catalog
+- Streaming platform integration
+
+---
+
 ## Roadmap
+
+### Application
 
 - [x] Monorepo
 - [x] Shared workspace
-- [x] Fastify API
-- [x] Dependency Injection
-- [x] Repository Pattern
+- [x] Fastify REST API
 - [x] MongoDB integration
+- [x] Repository Pattern
+- [x] Dependency Injection
 - [x] Database seed
 - [x] React frontend
 - [x] Material UI
 - [x] Frontend ↔ Backend integration
-- [ ] Docker multi-container
+- [x] Interactive flip cards
+- [x] Streaming services integration
+
+### Infrastructure
+
+- [ ] Docker images
+- [ ] Multi-container Docker Compose
 - [ ] Kubernetes deployment
-- [ ] Authentication
+- [ ] ConfigMaps
+- [ ] Secrets
+- [ ] Ingress
 - [ ] CI/CD
+
+---
+
+## License
+
+This project is developed for educational purposes as part of a software engineering learning journey.

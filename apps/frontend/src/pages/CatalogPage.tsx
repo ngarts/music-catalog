@@ -1,8 +1,9 @@
-import { Alert, CircularProgress, Container, List, ListItem, ListItemText, Stack, Typography } from "@mui/material";
+import { Alert, CircularProgress, Container, Grid, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
 import type { SingleResponseDto } from "@music-catalog/shared";
 import { singlesService } from "../services/singles.service";
+import { SingleCard } from "../components/singles/SingleCard";
 
 export function CatalogPage() {
     const [singles, setSingles] = useState<SingleResponseDto[]>([]);
@@ -35,18 +36,22 @@ export function CatalogPage() {
                     NGArts Music Catalog
                 </Typography>
 
+                <Typography color="text.secondary" sx={{ mt: 1 }}>
+                    Singles published by Nicola Gullo
+                </Typography>
+
                 {isLoading && <CircularProgress />}
 
                 {error && <Alert severity="error">{error}</Alert>}
 
                 {!isLoading && !error && (
-                    <List>
+                    <Grid container spacing={3}>
                         {singles.map((single) => (
-                            <ListItem key={single.id} disableGutters>
-                                <ListItemText primary={single.title} secondary={single.artist} />
-                            </ListItem>
+                            <Grid key={single.id} size={{ xs: 12, sm: 6, md: 4 }}>
+                                <SingleCard single={single} />
+                            </Grid>
                         ))}
-                    </List>
+                    </Grid>
                 )}
             </Stack>
         </Container>
