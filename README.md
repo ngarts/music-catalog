@@ -19,6 +19,7 @@ The application showcases a music catalog through a React frontend and a Fastify
 
 - React
 - Material UI
+- Nginx
 
 ### Shared
 
@@ -28,6 +29,7 @@ The application showcases a music catalog through a React frontend and a Fastify
 ### DevOps
 
 - Docker
+- Docker Compose
 - Kubernetes (coming next)
 
 ---
@@ -38,7 +40,7 @@ The application showcases a music catalog through a React frontend and a Fastify
 - Develop a modern React frontend
 - Share contracts between backend and frontend
 - Apply Domain-Driven Design principles
-- Containerize the application with Docker
+- Design a cloud-native architecture
 - Deploy the application with Kubernetes
 - Follow enterprise software engineering practices
 
@@ -54,6 +56,7 @@ The application showcases a music catalog through a React frontend and a Fastify
 - MongoDB persistence
 - Database seed
 - Environment-based configuration
+- Docker-ready configuration
 
 ### Frontend
 
@@ -61,6 +64,7 @@ The application showcases a music catalog through a React frontend and a Fastify
 - Material UI components
 - Interactive flip cards
 - Streaming service shortcuts
+- Reverse proxy through Nginx
 
 ### Shared
 
@@ -72,37 +76,30 @@ The application showcases a music catalog through a React frontend and a Fastify
 ## Architecture
 
 ```text
-                Browser
-                   │
-                   ▼
-               React UI
-                   │
-                   ▼
-              Application
-                Services
-                   │
-                   ▼
-               API Client
-                   │
-              HTTP / JSON
-                   │
-                   ▼
-                Fastify API
-                   │
-                   ▼
+                 Browser
+                    │
+                    ▼
+             Nginx (Frontend)
+                    │
+                 /api
+                    │
+                    ▼
+               Fastify API
+                    │
+                    ▼
               Controllers
-                   │
-                   ▼
-               Services
-                   │
-                   ▼
-          Repository Interface
-                   │
-                   ▼
-          MongoDB Repository
-                   │
-                   ▼
-                MongoDB
+                    │
+                    ▼
+                Services
+                    │
+                    ▼
+         Repository Interface
+                    │
+                    ▼
+         MongoDB Repository
+                    │
+                    ▼
+                 MongoDB
 ```
 
 ### Shared Contracts
@@ -124,7 +121,8 @@ apps/
 │   └── src/
 │
 ├── frontend/
-│   └── src/
+│   ├── src/
+│   └── nginx.conf
 │
 packages/
 └── shared/
@@ -138,28 +136,52 @@ kubernetes/
 
 ## Running the Project
 
-### Start MongoDB
+### Development
+
+Start MongoDB
 
 ```bash
-docker compose up -d
+docker compose -f docker-compose.dev.yml up -d
 ```
 
-### Seed the database
+Seed the database
 
 ```bash
 npm run seed --workspace=@music-catalog/catalog-api
 ```
 
-### Start the backend
+Start the backend
 
 ```bash
 npm run dev --workspace=@music-catalog/catalog-api
 ```
 
-### Start the frontend
+Start the frontend
 
 ```bash
 npm run dev --workspace=@music-catalog/frontend
+```
+
+---
+
+### Production-like Environment
+
+Build and start the complete stack
+
+```bash
+docker compose up --build -d
+```
+
+Open the application
+
+```text
+http://localhost:8080
+```
+
+Stop the stack
+
+```bash
+docker compose down
 ```
 
 ---
@@ -174,6 +196,10 @@ npm run dev --workspace=@music-catalog/frontend
 - MongoDB persistence
 - Interactive music catalog
 - Streaming platform integration
+- Docker multi-stage builds
+- Docker Compose orchestration
+- Reverse proxy with Nginx
+- Health checks
 
 ---
 
@@ -196,8 +222,10 @@ npm run dev --workspace=@music-catalog/frontend
 
 ### Infrastructure
 
-- [ ] Docker images
-- [ ] Multi-container Docker Compose
+- [x] Docker images
+- [x] Multi-container Docker Compose
+- [x] Reverse proxy
+- [x] Health checks
 - [ ] Kubernetes deployment
 - [ ] ConfigMaps
 - [ ] Secrets
