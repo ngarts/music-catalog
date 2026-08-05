@@ -68,8 +68,7 @@ export function MusicServiceLinks({
     <Stack
       direction="row"
       spacing={1}
-      justifyContent="center"
-      flexWrap="wrap"
+      sx={{ flexWrap: "wrap", justifyContent: "center" }}
       useFlexGap
     >
       {links.map((link) => {

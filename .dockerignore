@@ -1,0 +1,17 @@
+.git
+.gitignore
+
+node_modules
+**/node_modules
+
+**/dist
+**/.env
+**/.env.*
+
+.vscode
+.idea
+
+npm-debug.log*
+README.md
+docs
+kubernetes

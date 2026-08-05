@@ -1,16 +1,123 @@
 services:
+
   mongodb:
     image: mongo:8
-    container_name: music-catalog-mongodb
     restart: unless-stopped
+
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin
       MONGO_INITDB_DATABASE: music_catalog
-    ports:
-      - "27017:27017"
+
     volumes:
       - mongodb_data:/data/db
 
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mongosh",
+          "--quiet",
+          "--username",
+          "admin",
+          "--password",
+          "admin",
+          "--authenticationDatabase",
+          "admin",
+          "--eval",
+          "db.adminCommand('ping')"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  seed:
+    build:
+      context: .
+      dockerfile: apps/catalog-api/Dockerfile
+
+    command:
+      [
+        "node",
+        "apps/catalog-api/dist/seeds/seed.js"
+      ]
+
+    environment:
+      PORT: 3000
+      HOST: 0.0.0.0
+      MONGODB_URI: mongodb://admin:admin@mongodb:27017
+      MONGODB_DATABASE: music_catalog
+      CORS_ORIGIN: http://localhost:8080
+
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+    restart: "no"
+
+  catalog-api:
+    build:
+      context: .
+      dockerfile: apps/catalog-api/Dockerfile
+
+    restart: unless-stopped
+
+    environment:
+      PORT: 3000
+      HOST: 0.0.0.0
+
+      MONGODB_URI: mongodb://admin:admin@mongodb:27017
+      MONGODB_DATABASE: music_catalog
+
+      CORS_ORIGIN: http://localhost:8080
+
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      seed:
+        condition: service_completed_successfully
+
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://localhost:3000/health').then(r => { if (!r.ok) process.exit(1) }).catch(() => process.exit(1))"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  frontend:
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile
+      args:
+        VITE_API_URL: /api
+
+    restart: unless-stopped
+
+    depends_on:
+      catalog-api:
+        condition: service_healthy
+
+    ports:
+      - "8080:80"
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget -q -O /dev/null http://127.0.0.1/ || exit 1"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
 volumes:
+
   mongodb_data:

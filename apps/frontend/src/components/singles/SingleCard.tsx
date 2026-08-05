@@ -72,7 +72,7 @@ export function SingleCard({ single }: SingleCardProps) {
               }}
             >
               <Stack spacing={1}>
-                <Typography component="h2" variant="h5" fontWeight={600}>
+                <Typography component="h2" variant="h5" sx={{ fontWeight: 600 }}>
                   {single.title}
                 </Typography>
 
@@ -86,7 +86,7 @@ export function SingleCard({ single }: SingleCardProps) {
                   direction="row"
                   spacing={1}
                   useFlexGap
-                  flexWrap="wrap"
+                  sx={{ flexWrap: "wrap" }}
                 >
                   {single.genres.map((genre) => (
                     <Chip
