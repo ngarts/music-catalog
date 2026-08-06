@@ -14,9 +14,8 @@ COPY packages/shared ./packages/shared
 ARG VITE_CATALOG_API_URL=/api
 ENV VITE_CATALOG_API_URL=${VITE_CATALOG_API_URL}
 
-RUN npm run build --workspace=@music-catalog/shared \
- && npm run build --workspace=@music-catalog/frontend
-
+RUN echo "VITE_CATALOG_API_URL=${VITE_CATALOG_API_URL}" \
+ && printenv | grep '^VITE_'
 
 FROM nginx:1.27-alpine AS runtime
 

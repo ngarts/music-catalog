@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: catalog-api-config
+
+data:
+  HOST: "0.0.0.0"
+  PORT: "3000"
+  MONGODB_DATABASE: "music_catalog"
+  CORS_ORIGIN: "http://music-catalog.local"

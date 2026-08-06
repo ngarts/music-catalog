@@ -9,7 +9,8 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "seed": "tsx src/seeds/seed.ts",
-    "seed:force": "tsx src/seeds/seed.ts --force"
+    "seed:force": "tsx src/seeds/seed.ts --force",
+    "seed:prod": "node dist/seeds/seed.js"
   },
   "keywords": [
     "fastify",

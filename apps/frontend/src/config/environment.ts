@@ -1,13 +1,9 @@
-function requireEnvironmentVariable(name: string): string {
-  const value = import.meta.env[name];
+const catalogApiUrl = import.meta.env.VITE_CATALOG_API_URL;
 
-  if (!value) {
-    throw new Error(`Missing required environment variable: ${name}`);
-  }
-
-  return value;
+if (!catalogApiUrl) {
+  throw new Error("Missing required environment variable: VITE_CATALOG_API_URL");
 }
 
 export const environment = {
-  catalogApiUrl: requireEnvironmentVariable("VITE_CATALOG_API_URL")
+  catalogApiUrl,
 };

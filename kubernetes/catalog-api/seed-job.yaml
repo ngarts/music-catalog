@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+
+metadata:
+  name: catalog-api-seed
+
+spec:
+  backoffLimit: 3
+
+  template:
+    spec:
+      restartPolicy: Never
+
+      containers:
+        - name: seed
+          image: music-catalog-api:local
+          imagePullPolicy: Never
+
+          workingDir: /app/apps/catalog-api
+
+          envFrom:
+            - configMapRef:
+                name: catalog-api-config
+
+            - secretRef:
+                name: catalog-api-secret
+
+          command:
+            - node
+            - dist/seeds/seed.js

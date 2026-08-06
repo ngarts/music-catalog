@@ -1,211 +1,228 @@
 # Music Catalog
 
-Music Catalog is a production-style full-stack application built as a learning project to explore modern TypeScript technologies, enterprise architectural patterns, and cloud-native development.
+Music Catalog is a production-style full-stack application built to explore modern backend development, frontend engineering, containerization, and cloud-native deployment.
 
-The application showcases a music catalog through a React frontend and a Fastify REST API, sharing contracts through a dedicated workspace package.
+The project showcases a music catalog through a React frontend and a Fastify REST API, sharing contracts through a dedicated TypeScript workspace package.
+
+The application is fully containerized with Docker and deployed on Kubernetes using a production-inspired architecture.
 
 ---
 
-## Tech Stack
+# Tech Stack
 
-### Backend
+## Backend
 
 - TypeScript
 - Node.js
 - Fastify
 - MongoDB
 
-### Frontend
+## Frontend
 
 - React
 - Material UI
-- Nginx
+- Vite
 
-### Shared
+## Shared
 
 - TypeScript Workspace
 - Shared DTOs
 
-### DevOps
+## DevOps
 
 - Docker
 - Docker Compose
-- Kubernetes (coming next)
+- Kubernetes
+- Kustomize
 
 ---
 
-## Goals
+# Goals
 
 - Build a production-style REST API
 - Develop a modern React frontend
 - Share contracts between backend and frontend
-- Apply Domain-Driven Design principles
-- Design a cloud-native architecture
-- Deploy the application with Kubernetes
+- Apply clean architectural patterns
+- Containerize the application
+- Deploy the application on Kubernetes
+- Separate build-time and runtime responsibilities
 - Follow enterprise software engineering practices
 
 ---
 
-## Current Features
+# Current Features
 
-### Backend
+## Backend
 
-- REST API with Fastify
+- Fastify REST API
 - Dependency Injection
 - Repository Pattern
 - MongoDB persistence
 - Database seed
 - Environment-based configuration
-- Docker-ready configuration
+- Health endpoint
 
-### Frontend
+## Frontend
 
-- Responsive React application
-- Material UI components
+- React application
+- Material UI
 - Interactive flip cards
 - Streaming service shortcuts
-- Reverse proxy through Nginx
+- Environment-based configuration
 
-### Shared
+## Shared
 
 - Shared DTO workspace
-- Type-safe contracts between frontend and backend
+- Type-safe contracts
 
 ---
 
-## Architecture
+# Architecture
 
 ```text
-                 Browser
-                    │
-                    ▼
-             Nginx (Frontend)
-                    │
-                 /api
-                    │
-                    ▼
-               Fastify API
-                    │
-                    ▼
-              Controllers
-                    │
-                    ▼
-                Services
-                    │
-                    ▼
-         Repository Interface
-                    │
-                    ▼
-         MongoDB Repository
-                    │
-                    ▼
-                 MongoDB
-```
-
-### Shared Contracts
-
-```text
-packages/shared
-        ▲
-        │
-Backend ─────────── Frontend
+                     Browser
+                        │
+                        ▼
+                   Kubernetes Ingress
+                        │
+          ┌─────────────┴─────────────┐
+          ▼                           ▼
+      Frontend Service          Catalog API Service
+          │                           │
+          ▼                           ▼
+     React + Nginx               Fastify API
+                                      │
+                                      ▼
+                                  MongoDB
+                                      │
+                                      ▼
+                          Persistent Volume Claim
 ```
 
 ---
 
-## Repository Structure
+# Kubernetes Architecture
+
+The application is deployed using the following Kubernetes resources:
+
+- Namespace
+- Deployments
+- Services
+- Ingress
+- ConfigMaps
+- Secrets (generated through Kustomize)
+- Persistent Volume Claim
+- Health Checks
+- Database Seed Job
+
+---
+
+# Build vs Runtime
+
+The project intentionally separates image creation from application orchestration.
+
+## Build
+
+- TypeScript compilation
+- React production build
+- Docker image creation
+
+## Runtime
+
+- Kubernetes orchestration
+- Configuration through ConfigMaps and Secrets
+- Persistent storage
+- Service discovery
+- Ingress routing
+
+This separation follows the same architecture typically adopted in CI/CD pipelines.
+
+---
+
+# Repository Structure
 
 ```text
 apps/
 ├── catalog-api/
-│   └── src/
-│
 ├── frontend/
-│   ├── src/
-│   └── nginx.conf
-│
+
 packages/
 └── shared/
-    └── src/
+
+kubernetes/
+├── catalog-api/
+├── frontend/
+├── mongodb/
+└── kustomization.yaml
 
 docs/
-kubernetes/
 ```
 
 ---
 
-## Running the Project
-
-### Development
-
-Start MongoDB
+# Running with Docker Compose
 
 ```bash
-docker compose -f docker-compose.dev.yml up -d
-```
-
-Seed the database
-
-```bash
-npm run seed --workspace=@music-catalog/catalog-api
-```
-
-Start the backend
-
-```bash
-npm run dev --workspace=@music-catalog/catalog-api
-```
-
-Start the frontend
-
-```bash
-npm run dev --workspace=@music-catalog/frontend
+docker compose up --build
 ```
 
 ---
 
-### Production-like Environment
+# Running on Kubernetes
 
-Build and start the complete stack
-
-```bash
-docker compose up --build -d
-```
-
-Open the application
-
-```text
-http://localhost:8080
-```
-
-Stop the stack
+Build Docker images
 
 ```bash
-docker compose down
+docker build -f apps/catalog-api/Dockerfile \
+  -t music-catalog-api:local .
+
+docker build \
+  -f apps/frontend/Dockerfile \
+  --build-arg VITE_CATALOG_API_URL=/api \
+  -t music-catalog-frontend:local .
+```
+
+Load images into Minikube
+
+```bash
+minikube image load music-catalog-api:local
+minikube image load music-catalog-frontend:local
+```
+
+Deploy
+
+```bash
+kubectl apply -k kubernetes
+```
+
+Port Forward
+
+```bash
+kubectl port-forward service/frontend 8080:80
 ```
 
 ---
 
-## Project Highlights
+# Project Highlights
 
 - Monorepo architecture
 - Shared TypeScript workspace
-- Clean separation between frontend and backend
 - Repository Pattern
 - Dependency Injection
-- MongoDB persistence
-- Interactive music catalog
-- Streaming platform integration
 - Docker multi-stage builds
-- Docker Compose orchestration
-- Reverse proxy with Nginx
-- Health checks
+- Docker Compose
+- Kubernetes deployments
+- Ingress-based routing
+- Kustomize configuration
+- Persistent storage
+- Secure configuration management
+- Production-style architecture
 
 ---
 
-## Roadmap
+# Roadmap
 
-### Application
+## Application
 
 - [x] Monorepo
 - [x] Shared workspace
@@ -213,27 +230,35 @@ docker compose down
 - [x] MongoDB integration
 - [x] Repository Pattern
 - [x] Dependency Injection
-- [x] Database seed
 - [x] React frontend
 - [x] Material UI
-- [x] Frontend ↔ Backend integration
-- [x] Interactive flip cards
+- [x] Shared DTOs
 - [x] Streaming services integration
 
-### Infrastructure
+## Infrastructure
 
-- [x] Docker images
-- [x] Multi-container Docker Compose
-- [x] Reverse proxy
-- [x] Health checks
-- [ ] Kubernetes deployment
-- [ ] ConfigMaps
-- [ ] Secrets
-- [ ] Ingress
-- [ ] CI/CD
+- [x] Docker
+- [x] Docker Compose
+- [x] Kubernetes
+- [x] Namespace
+- [x] ConfigMaps
+- [x] Secrets
+- [x] Persistent Volumes
+- [x] Health Checks
+- [x] Ingress
+- [x] Database Seed Job
+
+## Future Improvements
+
+- CI/CD pipeline
+- Helm Charts
+- Horizontal Pod Autoscaler
+- Network Policies
+- TLS with cert-manager
+- Observability (Prometheus & Grafana)
 
 ---
 
-## License
+# License
 
-This project is developed for educational purposes as part of a software engineering learning journey.
+A cloud-native full-stack application built to explore modern software engineering practices, backend architecture and Kubernetes deployment.
