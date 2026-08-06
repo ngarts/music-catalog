@@ -6,6 +6,10 @@ The project showcases a music catalog through a React frontend and a Fastify RES
 
 The application is fully containerized with Docker and deployed on Kubernetes using a production-inspired architecture.
 
+## 🎥 Demo
+
+➡️ [Watch the project demo](https://github.com/ngarts/music-catalog/releases/download/v1.0.0/music_catalog_demo.mp4)
+
 ---
 
 # Tech Stack
